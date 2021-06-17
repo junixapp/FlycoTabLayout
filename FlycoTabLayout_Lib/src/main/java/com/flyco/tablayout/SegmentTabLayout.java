@@ -190,7 +190,7 @@ public class SegmentTabLayout extends FrameLayout implements ValueAnimator.Anima
         this.mTabCount = mTitles.length;
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
-            tabView = View.inflate(mContext, R.layout.layout_tab_segment, null);
+            tabView = View.inflate(mContext, R.layout._flyco_layout_tab_segment, null);
             tabView.setTag(i);
             addTab(i, tabView);
         }
