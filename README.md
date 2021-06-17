@@ -2,7 +2,7 @@
 
 Modify from [H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，fix bugs, add some attribute.
 
-#### [中文版](https://github.com/H07000223/FlycoTabLayout/blob/master/README_CN.md)
+#### [中文版](https://github.com/li-xiaojun/FlycoTabLayout/blob/master/README_CN.md)
 An Android TabLayout Lib has 3 kinds of TabLayout at present.
 
 * SlidingTabLayout: deeply modified from [PagerSlidingTabStrip](https://github.com/jpardogo/PagerSlidingTabStrip).
@@ -41,37 +41,22 @@ can be used freely with other widgets together.
 ![](https://github.com/H07000223/FlycoTabLayout/blob/master/preview_3.gif)
 
 
->## Change Log
-
- > v2.0.0(2016-03-01)
-   - remove the dependence of FlycoRoundView
-   - new added method getIconView and getTitleView
-
- > v2.0.2(2016-04-23)
-   - remove the dependence of NineOldAnimation(only support 3.0+)
-
-
 ## Gradle
 
+1. Add it in your root build.gradle at the end of repositories:
 ```groovy
-dependencies{
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.2@aar'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:1.5.0@aar'
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
-
-After v2.0.0
-dependencies{
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.0@aar'
-}
-
-After v2.0.2(support 3.0+)
-dependencies{
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+```
+2. Add the dependency
+[![](https://jitpack.io/v/li-xiaojun/FlycoTabLayout.svg)](https://jitpack.io/#li-xiaojun/FlycoTabLayout)
+```
+dependencies {
+    implementation 'com.github.li-xiaojun:FlycoTabLayout:Tag'
 }
 ```
 
@@ -113,10 +98,3 @@ dependencies{
 | tl_indicator_anim_duration |integer| set indicator animation duration(only for CommonTabLayout)
 | tl_indicator_bounce_enable |boolean| set indicator aniamtion with bounce effect(only for CommonTabLayout)
 | tl_indicator_width_equal_title |boolean| set indicator width same as text(only for SlidingTabLayout)
-
-## Dependence
-*   [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids)
-*   [FlycoRoundView](https://github.com/H07000223/FlycoRoundView)
-
-## Thanks
-*   [PagerSlidingTabStrip](https://github.com/jpardogo/PagerSlidingTabStrip)
