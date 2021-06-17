@@ -1,6 +1,6 @@
 # FlycoTabLayout
 
-Modify from [H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，fix bugs, add some attribute.
+Modify from [H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，fix bugs, add some attribute，support ViewPager2.
 
 #### [中文版](https://github.com/li-xiaojun/FlycoTabLayout/blob/master/README_CN.md)
 An Android TabLayout Lib has 3 kinds of TabLayout at present.

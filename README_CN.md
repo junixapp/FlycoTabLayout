@@ -1,6 +1,6 @@
 # FlycoTabLayout
 
-修改自[H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，修复了一些Bug，增加了一些属性.
+修改自[H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，修复了一些Bug，增加了一些属性，支持ViewPager2.
 
 
 一个Android TabLayout库,目前有3个TabLayout
