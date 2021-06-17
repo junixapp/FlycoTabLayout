@@ -1,5 +1,7 @@
 # FlycoTabLayout
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-FlycoTabLayout-green.svg?style=true)](https://android-arsenal.com/details/1/2756)
+
+修改自[H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)，修复了一些Bug，增加了一些属性.
+
 
 一个Android TabLayout库,目前有3个TabLayout
 
