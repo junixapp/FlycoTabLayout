@@ -130,6 +130,30 @@
             android:id="@+id/vp"
             android:layout_width="match_parent"
             android:layout_height="84dp"/>
+        <TextView
+            android:text="下面是ViewPager2关联演示"
+            android:background="#f1f1f1"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tl_vp2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#666666"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            tl:tl_textFontPath="FredokaOne-Regular.ttf"
+            tl:tl_indicator_gravity="TOP"
+            tl:tl_textBold="SELECT"
+            tl:tl_textSelectSize="20sp"
+            tl:tl_underline_color="#1A000000"
+            tl:tl_underline_gravity="TOP"
+            tl:tl_underline_height="1dp"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp2"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"/>
 
     </LinearLayout>
 </ScrollView>

@@ -8,7 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -16,6 +19,8 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.flyco.tablayoutsamples.R;
 import com.flyco.tablayoutsamples.utils.ViewFindUtils;
+import com.lxj.easyadapter.EasyAdapter;
+import com.lxj.easyadapter.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -105,6 +110,25 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 //                tabLayout_7.addNewTab("后端");
 //            }
 //        });
+
+        //ViewPager2演示
+
+        ArrayList<String> vp2Data = new ArrayList<String>();
+        vp2Data.add("热门");
+        vp2Data.add("iOS");
+        vp2Data.add("Android");
+        ViewPager2 vp2 = ViewFindUtils.find(decorView, R.id.vp2);
+        vp2.setAdapter(new EasyAdapter<String>(vp2Data, R.layout.fr_simple_card) {
+            @Override
+            protected void bind(ViewHolder viewHolder, String s, int i) {
+                viewHolder.<TextView>getView(R.id.card_title_tv).setText("ViewPager2 "+s);
+            }
+        });
+        SlidingTabLayout tl_vp2 = ViewFindUtils.find(decorView, R.id.tl_vp2);
+        for (int i = 0; i < vp2Data.size(); i++) {
+            tl_vp2.addNewTab(vp2Data.get(i));
+        }
+        tl_vp2.setViewPager2(vp2, vp2Data);
     }
 
     @Override

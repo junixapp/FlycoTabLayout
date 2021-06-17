@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.flyco.tablayoutsamples"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -19,9 +19,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation project(':FlycoTabLayout_Lib')
-
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.github.li-xiaojun:EasyAdapter:1.2.5'
 //    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

@@ -14,9 +14,13 @@
     ```java
         /** 关联ViewPager,用于不想在ViewPager适配器中设置titles数据的情况 */
         public void setViewPager(ViewPager vp, String[] titles)
-        
+
         /** 关联ViewPager,用于连适配器都不想自己实例化的情况 */
-        public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments) 
+        public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments)
+
+        public void setViewPager2(ViewPager2 vp)
+
+        public void setViewPager2(ViewPager2 vp, ArrayList<String> titles)
     ```
 
 * CommonTabLayout:不同于SlidingTabLayout对ViewPager依赖,它是一个不依赖ViewPager可以与其他控件自由搭配使用的TabLayout.

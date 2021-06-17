@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -35,9 +37,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /** 滑动TabLayout,对于ViewPager的依赖性强 */
-public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.OnPageChangeListener {
+public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.OnPageChangeListener{
     private Context mContext;
     private ViewPager mViewPager;
+    private ViewPager2 mViewPager2;
     private ArrayList<String> mTitles;
     private LinearLayout mTabsContainer;
     private int mCurrentTab;
@@ -176,6 +179,38 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         ta.recycle();
     }
 
+    /***
+     * 关联ViewPager2
+     * @param vp2
+     */
+    public void setViewPager2(ViewPager2 vp2, ArrayList<String> titles) {
+        if (vp2 == null || vp2.getAdapter() == null) {
+            throw new IllegalStateException("ViewPager2 or ViewPager2 adapter can not be NULL !");
+        }
+
+        this.mViewPager2 = vp2;
+        mTitles = new ArrayList<>();
+        mTitles.addAll(titles);
+        this.mViewPager2.unregisterOnPageChangeCallback(pager2Callback);
+        this.mViewPager2.registerOnPageChangeCallback(pager2Callback);
+        notifyDataSetChanged();
+    }
+
+    /***
+     * 关联ViewPager2
+     * @param vp2
+     */
+    public void setViewPager2(ViewPager2 vp2) {
+        if (vp2 == null || vp2.getAdapter() == null) {
+            throw new IllegalStateException("ViewPager2 or ViewPager2 adapter can not be NULL !");
+        }
+
+        this.mViewPager2 = vp2;
+        this.mViewPager2.unregisterOnPageChangeCallback(pager2Callback);
+        this.mViewPager2.registerOnPageChangeCallback(pager2Callback);
+        notifyDataSetChanged();
+    }
+
     /** 关联ViewPager */
     public void setViewPager(ViewPager vp) {
         if (vp == null || vp.getAdapter() == null) {
@@ -183,7 +218,6 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         }
 
         this.mViewPager = vp;
-
         this.mViewPager.removeOnPageChangeListener(this);
         this.mViewPager.addOnPageChangeListener(this);
         notifyDataSetChanged();
@@ -233,11 +267,12 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     /** 更新数据 */
     public void notifyDataSetChanged() {
         mTabsContainer.removeAllViews();
-        this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
+        if(mTitles==null) mTitles = new ArrayList<>();
+        this.mTabCount = mViewPager != null ? mViewPager.getAdapter().getCount() : mTitles.size();
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
             tabView = View.inflate(mContext, R.layout._flyco_layout_tab, null);
-            CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(i) : mTitles.get(i);
+            CharSequence pageTitle = mViewPager != null ? mViewPager.getAdapter().getPageTitle(i) : mTitles.get(i);
             addTab(i, pageTitle.toString(), tabView);
         }
 
@@ -246,10 +281,10 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
     public void addNewTab(String title) {
         View tabView = View.inflate(mContext, R.layout._flyco_layout_tab, null);
-        if (mTitles != null) {
-            mTitles.add(title);
+        if (mTitles == null) {
+            mTitles = new ArrayList<>();
         }
-
+        mTitles.add(title);
         CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(mTabCount) : mTitles.get(mTabCount);
         addTab(mTabCount, pageTitle.toString(), tabView);
         this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
@@ -269,13 +304,12 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
             public void onClick(View v) {
                 int position = mTabsContainer.indexOfChild(v);
                 if (position != -1) {
-                    if (mViewPager.getCurrentItem() != position) {
+                    if (getCurrentItem() != position) {
                         if (mSnapOnTabClick) {
-                            mViewPager.setCurrentItem(position, false);
+                            setCurrentItem(position, false);
                         } else {
-                            mViewPager.setCurrentItem(position);
+                            setCurrentItem(position, true);
                         }
-
                         if (mListener != null) {
                             mListener.onTabSelect(position);
                         }
@@ -297,6 +331,16 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         }
 
         mTabsContainer.addView(tabView, position, lp_tab);
+    }
+
+    private int getCurrentItem(){
+        if(mViewPager!=null) return mViewPager.getCurrentItem();
+        return mViewPager2!=null ? mViewPager2.getCurrentItem() : 0;
+    }
+
+    private void setCurrentItem(int position, boolean smoothScroll){
+        if(mViewPager!=null) mViewPager.setCurrentItem(position, smoothScroll);
+        else if(mViewPager2!=null) mViewPager2.setCurrentItem(position, smoothScroll);
     }
 
     private void updateTabStyles() {
@@ -322,6 +366,25 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         }
     }
 
+    protected ViewPager2.OnPageChangeCallback pager2Callback = new ViewPager2.OnPageChangeCallback() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            SlidingTabLayout.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            super.onPageSelected(position);
+            SlidingTabLayout.this.onPageSelected(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            super.onPageScrollStateChanged(state);
+        }
+    };
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         /**
@@ -341,8 +404,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     }
 
     @Override
-    public void onPageScrollStateChanged(int state) {
-    }
+    public void onPageScrollStateChanged(int state) { }
 
     /** HorizontalScrollView滚到当前tab,并且居中显示 */
     private void scrollToCurrentTab() {
@@ -537,13 +599,12 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     //setter and getter
     public void setCurrentTab(int currentTab) {
         this.mCurrentTab = currentTab;
-        mViewPager.setCurrentItem(currentTab);
-
+        setCurrentItem(currentTab, true);
     }
 
     public void setCurrentTab(int currentTab, boolean smoothScroll) {
         this.mCurrentTab = currentTab;
-        mViewPager.setCurrentItem(currentTab, smoothScroll);
+        setCurrentItem(currentTab, smoothScroll);
     }
 
     public void setIndicatorStyle(int indicatorStyle) {
@@ -926,4 +987,5 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
     }
+
 }

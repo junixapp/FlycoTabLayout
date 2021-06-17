@@ -16,7 +16,11 @@ An Android TabLayout Lib has 3 kinds of TabLayout at present.
         public void setViewPager(ViewPager vp, String[] titles)
         
         /** no need to initialize even adapter */
-        public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments) 
+        public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments)
+
+        public void setViewPager2(ViewPager2 vp)
+
+        public void setViewPager2(ViewPager2 vp, ArrayList<String> titles)
     ```
 
 * CommonTabLayout:unlike SlidingTabLayout's dependence on ViewPager,it is a tabLayout without dependence on ViewPager and 
