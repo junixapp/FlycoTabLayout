@@ -21,6 +21,9 @@
         public void setViewPager2(ViewPager2 vp)
 
         public void setViewPager2(ViewPager2 vp, ArrayList<String> titles)
+
+        /** 支持单独使用 **/
+        public void setTabData(String[] titles)
     ```
 
 * CommonTabLayout:不同于SlidingTabLayout对ViewPager依赖,它是一个不依赖ViewPager可以与其他控件自由搭配使用的TabLayout.
