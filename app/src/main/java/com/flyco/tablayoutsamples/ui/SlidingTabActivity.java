@@ -113,17 +113,17 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
 
         //ViewPager2演示
 
-        ArrayList<String> vp2Data = new ArrayList<String>();
-        vp2Data.add("热门");
-        vp2Data.add("iOS");
-        vp2Data.add("Android");
-        ViewPager2 vp2 = ViewFindUtils.find(decorView, R.id.vp2);
-        vp2.setAdapter(new EasyAdapter<String>(vp2Data, R.layout.fr_simple_card) {
-            @Override
-            protected void bind(ViewHolder viewHolder, String s, int i) {
-                viewHolder.<TextView>getView(R.id.card_title_tv).setText("ViewPager2 "+s);
-            }
-        });
+//        ArrayList<String> vp2Data = new ArrayList<String>();
+//        vp2Data.add("热门");
+//        vp2Data.add("iOS");
+//        vp2Data.add("Android");
+//        ViewPager2 vp2 = ViewFindUtils.find(decorView, R.id.vp2);
+//        vp2.setAdapter(new EasyAdapter<String>(vp2Data, R.layout.fr_simple_card) {
+//            @Override
+//            protected void bind(ViewHolder viewHolder, String s, int i) {
+//                viewHolder.<TextView>getView(R.id.card_title_tv).setText("ViewPager2 "+s);
+//            }
+//        });
         SlidingTabLayout tl_vp2 = ViewFindUtils.find(decorView, R.id.tl_vp2);
 //        for (int i = 0; i < vp2Data.size(); i++) {
 //            tl_vp2.addNewTab(vp2Data.get(i));
