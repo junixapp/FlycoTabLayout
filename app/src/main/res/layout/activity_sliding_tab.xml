@@ -152,6 +152,7 @@
             tl:tl_underline_height="1dp"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp2"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="84dp"/>
 

@@ -125,10 +125,11 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
             }
         });
         SlidingTabLayout tl_vp2 = ViewFindUtils.find(decorView, R.id.tl_vp2);
-        for (int i = 0; i < vp2Data.size(); i++) {
-            tl_vp2.addNewTab(vp2Data.get(i));
-        }
-        tl_vp2.setViewPager2(vp2, vp2Data);
+//        for (int i = 0; i < vp2Data.size(); i++) {
+//            tl_vp2.addNewTab(vp2Data.get(i));
+//        }
+//        tl_vp2.setViewPager2(vp2, vp2Data);
+        tl_vp2.setTabData(mTitles);
     }
 
     @Override

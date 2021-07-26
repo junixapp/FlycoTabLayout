@@ -223,6 +223,17 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         notifyDataSetChanged();
     }
 
+    /** 只设置数据 */
+    public void setTabData(String[] titles) {
+        if (titles == null || titles.length == 0) {
+            throw new IllegalStateException("Titles can not be EMPTY !");
+        }
+        mTitles = new ArrayList<>();
+        Collections.addAll(mTitles, titles);
+
+        notifyDataSetChanged();
+    }
+
     /** 关联ViewPager,用于不想在ViewPager适配器中设置titles数据的情况 */
     public void setViewPager(ViewPager vp, String[] titles) {
         if (vp == null || vp.getAdapter() == null) {
@@ -279,18 +290,18 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         updateTabStyles();
     }
 
-    public void addNewTab(String title) {
-        View tabView = View.inflate(mContext, R.layout._flyco_layout_tab, null);
-        if (mTitles == null) {
-            mTitles = new ArrayList<>();
-        }
-        mTitles.add(title);
-        CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(mTabCount) : mTitles.get(mTabCount);
-        addTab(mTabCount, pageTitle.toString(), tabView);
-        this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
-
-        updateTabStyles();
-    }
+//    public void addNewTab(String title) {
+//        View tabView = View.inflate(mContext, R.layout._flyco_layout_tab, null);
+//        if (mTitles == null) {
+//            mTitles = new ArrayList<>();
+//        }
+//        mTitles.add(title);
+//        CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(mTabCount) : mTitles.get(mTabCount);
+//        addTab(mTabCount, pageTitle.toString(), tabView);
+//        this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
+//
+//        updateTabStyles();
+//    }
 
     /** 创建并添加tab */
     private void addTab(final int position, String title, View tabView) {
@@ -335,12 +346,17 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
     private int getCurrentItem(){
         if(mViewPager!=null) return mViewPager.getCurrentItem();
-        return mViewPager2!=null ? mViewPager2.getCurrentItem() : 0;
+        return mViewPager2!=null ? mViewPager2.getCurrentItem() : mCurrentTab;
     }
 
     private void setCurrentItem(int position, boolean smoothScroll){
         if(mViewPager!=null) mViewPager.setCurrentItem(position, smoothScroll);
         else if(mViewPager2!=null) mViewPager2.setCurrentItem(position, smoothScroll);
+                else {
+            onPageSelected(position);
+            smoothScrollToCurrentTab();
+            invalidate();
+        }
     }
 
     private void updateTabStyles() {
@@ -406,8 +422,11 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     @Override
     public void onPageScrollStateChanged(int state) { }
 
+    private void scrollToCurrentTab(){
+        scrollToCurrentTab(false);
+    }
     /** HorizontalScrollView滚到当前tab,并且居中显示 */
-    private void scrollToCurrentTab() {
+    private void scrollToCurrentTab(boolean isSmooth) {
         if (mTabCount <= 0) {
             return;
         }
@@ -429,8 +448,12 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
              *  x:表示离起始位置的x水平方向的偏移量
              *  y:表示离起始位置的y垂直方向的偏移量
              */
-            scrollTo(newScrollX, 0);
+            if(isSmooth) smoothScrollTo(newScrollX, 0);
+            else scrollTo(newScrollX, 0);
         }
+    }
+    private void smoothScrollToCurrentTab(){
+        scrollToCurrentTab(true);
     }
 
     private void updateTabSelection(int position) {
